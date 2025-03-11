@@ -19,18 +19,68 @@
     </header>
 
     <main>
+        <!-- Product Section -->
         <section id="products">
             <h2>Our Products</h2>
             <div class="product-grid">
                 <!-- Product items will be inserted here by JavaScript -->
             </div>
         </section>
+
+        <!-- Traffic Graph Section -->
+        <section id="traffic">
+            <h2>Website Traffic</h2>
+            <img id="trafficGraph" alt="Traffic Graph Loading..." />
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2023 Awesome E-Commerce Store</p>
+        <p>&copy; 2025 Awesome E-Commerce Store</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Replace with your actual backend URL
+        const BACKEND_URL = "https://your-backend.onrender.com";
+
+        // Load Products from Backend
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/products`);
+                const products = await response.json();
+                const productGrid = document.querySelector(".product-grid");
+
+                productGrid.innerHTML = products.map(product => `
+                    <div class="product">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p>Price: $${product.price}</p>
+                    </div>
+                `).join("");
+            } catch (error) {
+                console.error("Failed to load products", error);
+            }
+        }
+
+        // Load Traffic Graph
+        async function loadTrafficGraph() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/traffic-graph`);
+                const data = await response.json();
+                
+                if (data.image) {
+                    document.getElementById("trafficGraph").src = data.image;
+                }
+            } catch (error) {
+                console.error("Failed to load traffic graph", error);
+            }
+        }
+
+        // Load data when page loads
+        window.onload = () => {
+            loadProducts();
+            loadTrafficGraph();
+        };
+    </script>
 </body>
 </html>
