@@ -4,7 +4,7 @@ fetch("https://backend-6yqh.onrender.com")
   .catch(error => console.error("Error:", error));
 
 async function loadTrafficGraph() {
-    const response = await fetch("https://your-backend.onrender.com/traffic-graph");
+    const response = await fetch("https://backend-6yqh.onrender.com/traffic");
     const data = await response.json();
     
     if (data.image) {
