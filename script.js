@@ -3,6 +3,19 @@ fetch("https://backend-6yqh.onrender.com")
   .then(data => console.log("Logged Request:", data))
   .catch(error => console.error("Error:", error));
 
+async function loadTrafficGraph() {
+    const response = await fetch("https://your-backend.onrender.com/traffic-graph");
+    const data = await response.json();
+    
+    if (data.image) {
+        document.getElementById("trafficGraph").src = data.image;
+    } else {
+        console.error("Failed to load graph");
+    }
+}
+
+// Call function on page load
+window.onload = loadTrafficGraph;
 
 const products = [
     { id: 1, name: "Product 1", price: "$10", image: "https://via.placeholder.com/150" },
