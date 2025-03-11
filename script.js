@@ -1,4 +1,4 @@
-fetch("http://your-server-ip:5000/")
+fetch("https://backend-6yqh.onrender.com")
   .then(response => response.json())
   .then(data => console.log("Logged Request:", data))
   .catch(error => console.error("Error:", error));
