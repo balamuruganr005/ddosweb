@@ -1,12 +1,15 @@
 // Log user visit to backend
 async function logUserVisit() {
     try {
+        console.log("Logging user visit...");  // Debugging
+
         const response = await fetch("https://backend-6yqh.onrender.com/insert-traffic-data", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                ip: "auto",  // Backend should detect IP automatically
                 request_size: Math.floor(Math.random() * 500),  // Simulating request size
                 request_type: "GET",
                 destination_port: 443,
@@ -14,16 +17,17 @@ async function logUserVisit() {
             }),
         });
 
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-
         const result = await response.json();
-        console.log("User visit logged successfully:", result);
+        console.log("User visit logged:", result);
     } catch (error) {
         console.error("Error logging user visit:", error);
     }
 }
+
+// Call function on page load
+window.onload = function () {
+    logUserVisit();
+};
 
 // Load traffic graph
 async function loadTrafficGraph() {
