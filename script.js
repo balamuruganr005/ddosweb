@@ -1,7 +1,7 @@
 // Log user visit to backend
 async function logUserVisit() {
     try {
-        const response = await fetch("https://backend-6yqh.onrender.com/traffic-data", {
+        const response = await fetch("https://backend-6yqh.onrender.com/insert-traffic-data", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
