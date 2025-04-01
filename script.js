@@ -1,22 +1,48 @@
-fetch("https://backend-6yqh.onrender.com")
-  .then(response => response.json())
-  .then(data => console.log("Logged Request:", data))
-  .catch(error => console.error("Error:", error));
+// Log user visit to backend
+async function logUserVisit() {
+    try {
+        const response = await fetch("https://backend-6yqh.onrender.com/track", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                ip: "auto",  // Backend will detect IP automatically
+                request_size: Math.floor(Math.random() * 500),  // Simulating request size
+                request_type: "GET",
+                destination_port: 443,
+                user_agent: navigator.userAgent
+            }),
+        });
 
-async function loadTrafficGraph() {
-    const response = await fetch("https://backend-6yqh.onrender.com/traffic");
-    const data = await response.json();
-    
-    if (data.image) {
-        document.getElementById("trafficGraph").src = data.image;
-    } else {
-        console.error("Failed to load graph");
+        const result = await response.json();
+        console.log("User visit logged:", result);
+    } catch (error) {
+        console.error("Error logging user visit:", error);
     }
 }
 
-// Call function on page load
-window.onload = loadTrafficGraph;
+// Load traffic graph
+async function loadTrafficGraph() {
+    try {
+        const response = await fetch("https://backend-6yqh.onrender.com/traffic-graph");
+        if (!response.ok) throw new Error("Failed to load traffic graph");
 
+        const blob = await response.blob();
+        const imgURL = URL.createObjectURL(blob);
+        document.getElementById("trafficGraph").src = imgURL;
+    } catch (error) {
+        console.error("Error loading traffic graph:", error);
+    }
+}
+
+// Call functions on page load
+window.onload = function () {
+    logUserVisit();
+    loadTrafficGraph();
+};
+
+// Product grid remains unchanged
 const products = [
     { id: 1, name: "Product 1", price: "$10", image: "https://via.placeholder.com/150" },
     { id: 2, name: "Product 2", price: "$15", image: "https://via.placeholder.com/150" },
@@ -40,18 +66,18 @@ const products = [
     { id: 20, name: "Product 20", price: "$105", image: "https://via.placeholder.com/150" },
 ];
 
-const productGrid = document.querySelector('.product-grid');
+const productGrid = document.querySelector(".product-grid");
 
 products.forEach(product => {
-    const productDiv = document.createElement('div');
-    productDiv.classList.add('product');
-    
+    const productDiv = document.createElement("div");
+    productDiv.classList.add("product");
+
     productDiv.innerHTML = `
         <img src="${product.image}" alt="${product.name}">
         <h3>${product.name}</h3>
         <p>${product.price}</p>
         <button>Add to Cart</button>
     `;
-    
+
     productGrid.appendChild(productDiv);
 });
