@@ -1,33 +1,36 @@
-// Log user visit to backend
+// Log actual visits with random request sizes
 async function logUserVisit() {
-    try {
-        console.log("Logging user visit...");
+  console.log("Logging user visit...");
 
-        const response = await fetch("https://backend-6yqh.onrender.com/insert-traffic-data", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                request_size: Math.floor(Math.random() * 900) + 100, // 100–1000 bytes
-                request_type: "GET",
-                destination_port: 443,
-                user_agent: navigator.userAgent,
-                timestamp: new Date().toISOString(), // Add timestamp
-            }),
-        });
+  try {
+    const res = await fetch("https://backend-6yqh.onrender.com/insert-traffic-data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ip: "auto", // Backend will extract the real IP
+        request_size: Math.floor(Math.random() * 1500), // Simulate varied size
+        request_type: "GET", // Could also be "POST" based on action
+        destination_port: 443,
+        status: "normal", // Will be changed if attack is detected
+        user_agent: navigator.userAgent,
+        country: "auto",
+        city: "auto",
+        location: "auto"
+      })
+    });
 
-        const result = await response.json();
-        console.log("User visit logged:", result);
-    } catch (error) {
-        console.error("Error logging user visit:", error);
-    }
+    const data = await res.json();
+    console.log("Logged:", data);
+
+  } catch (err) {
+    console.error("Error logging user visit:", err);
+  }
 }
 
-// Call both functions on page load
-window.onload = function () {
-    logUserVisit();
-};
+window.onload = logUserVisit;
+
 
 // Product grid remains unchanged
 const products = [
