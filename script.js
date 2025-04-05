@@ -1,19 +1,19 @@
 // Log user visit to backend
 async function logUserVisit() {
     try {
-        console.log("Logging user visit...");  // Debugging
+        console.log("Logging user visit...");
 
-        const response = await fetch("https://backend-6yqh.onrender.com/insert-traffic-data", {
+        const response = await fetch("https://backend-6yqh.onrender.com/traffic-data", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                ip: "auto",  // Backend should detect IP automatically
-                request_size: Math.floor(Math.random() * 500),  // Simulating request size
+                request_size: Math.floor(Math.random() * 900) + 100, // 100–1000 bytes
                 request_type: "GET",
                 destination_port: 443,
-                user_agent: navigator.userAgent
+                user_agent: navigator.userAgent,
+                timestamp: new Date().toISOString(), // Add timestamp
             }),
         });
 
@@ -23,11 +23,6 @@ async function logUserVisit() {
         console.error("Error logging user visit:", error);
     }
 }
-
-// Call function on page load
-window.onload = function () {
-    logUserVisit();
-};
 
 // Load traffic graph
 async function loadTrafficGraph() {
@@ -43,7 +38,7 @@ async function loadTrafficGraph() {
     }
 }
 
-// Call functions on page load
+// Call both functions on page load
 window.onload = function () {
     logUserVisit();
     loadTrafficGraph();
