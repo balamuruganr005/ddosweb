@@ -24,24 +24,9 @@ async function logUserVisit() {
     }
 }
 
-// Load traffic graph
-async function loadTrafficGraph() {
-    try {
-        const response = await fetch("https://backend-6yqh.onrender.com/traffic-graph");
-        if (!response.ok) throw new Error("Failed to load traffic graph");
-
-        const blob = await response.blob();
-        const imgURL = URL.createObjectURL(blob);
-        document.getElementById("trafficGraph").src = imgURL;
-    } catch (error) {
-        console.error("Error loading traffic graph:", error);
-    }
-}
-
 // Call both functions on page load
 window.onload = function () {
     logUserVisit();
-    loadTrafficGraph();
 };
 
 // Product grid remains unchanged
