@@ -16,12 +16,17 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
+        <!-- 🔍 Search Bar -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search products...">
+            <button onclick="searchProducts()">Search</button>
+        </div>
     </header>
 
     <main>
         <section id="products">
             <h2>Our Products</h2>
-            <div class="product-grid">
+            <div class="product-grid" id="productGrid">
                 <!-- Product items will be inserted here by JavaScript -->
             </div>
         </section>
@@ -34,3 +39,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
